@@ -102,7 +102,7 @@ namespace PopulatedWorld
 
             string MountSimpleExplanation = $"I will give you 10 bandages for 100 silver";
 
-            dialogueTreeBuilder.AddAnswerToMultipleChoice(initialChoice, 0, dialogueTreeBuilder.CreateNPCStatement(MountSimpleExplanation)).ConnectTo(DialogueTree, new RemoveMoneyAction(100)).ConnectTo(DialogueTree, new GiveItem(4400010)));
+            dialogueTreeBuilder.AddAnswerToMultipleChoice(initialChoice, 0, dialogueTreeBuilder.CreateNPCStatement(MountSimpleExplanation)).ConnectTo(DialogueTree, new RemoveMoneyAction(100)).ConnectTo(DialogueTree, new GiveItem(4400010));
             dialogueTreeBuilder.AddAnswerToMultipleChoice(initialChoice, 1, "Nothing dawg whasup with you", dialogueTreeBuilder.CreateNPCStatement("NOW IM SHOUTING"));
         }
     }
