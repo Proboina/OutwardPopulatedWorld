@@ -122,6 +122,8 @@ namespace PopulatedWorld
     //        //if (quantity >= 5 && answer5 != null)
     //        //    graph.allNodes.Add(answer5);
 
+
+
     //        //graph.primeNode = rootStatement;
 
     //        ////connect nodes

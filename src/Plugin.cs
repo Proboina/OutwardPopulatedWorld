@@ -71,54 +71,90 @@ namespace PopulatedWorld
             trainerPrefab.transform.position = character.transform.position;
             DialogueTree DialogueTree = (DialogueTree)graph;
             DialogueActor ourActor = character.GetComponentInChildren<DialogueActor>();
-            ourActor.SetName("NAME");
+            ourActor.SetName(character.Name);
 
             List<DialogueTree.ActorParameter> actors = (graph as DialogueTree).actorParameters;
             actors[0].actor = ourActor;
             actors[0].name = ourActor.name;
 
             DialogueTreeBuilder dialogueTreeBuilder = new DialogueTreeBuilder(DialogueTree);
-            StatementNodeExt InitialStatement = dialogueTreeBuilder.SetInitialStatement("HWODHOWDHWOD");
+            StatementNodeExt InitialStatement = dialogueTreeBuilder.SetInitialStatement("Hello this is the first thing I say.");
 
 
-    
+           
             //yes I copy and pasted, if you're going to set up many like this I will copy over the proper structure you can use lol.
 
             MultipleChoiceNodeExt initialChoice = dialogueTreeBuilder.AddMultipleChoiceNode(new string[]
+            {
+                "I have some bandages",
+                "Whats up dog",
+            }, 
+            new ConditionTask[]
                 {
-                    "Can you look after my current mount?",
-                    "I want to retrieve a mount.",
-                    "Can you teach me a little about mounts?",
-                    "I want to buy some color berries",
-                    "Do you have any creatures for sale?",
-                    "Do you have any unique creatures for sale?"
-                }, null);
+                    new HasCurrency()
+                    {
+                        AmountRequired = 100
+                    },
+                    null
+            });
 
             InitialStatement.ConnectTo(DialogueTree, initialChoice);
 
-            string MountSimpleExplanation = $"You can buy, find and I have even heard in rare cases <i> create </i> - a mount." +
-            $"There are usually two ways to get a new mount, find a whistle and use it or find an egg use it and 12 hours later it will hatch. " +
-            $"Most of my colleagues in the Stablery business sell some kind of mount to get you moving. Ask them!";
+            string MountSimpleExplanation = $"I will give you 10 bandages for 100 silver";
 
-            string MountSimpleExplanation2 = $"<b>Most</b> mounts will require feeding! " +
-                $"They all have a favourite food in the case of carnivores it is usually <b>Jewel Bird Meat</b> and <b>Herbivores seem to love Marsh Mellons</b> favourite foods fill a mount up better than other foods" +
-                $"Most mounts will have a maximum carry weight which they will move slower than usual the closer they are to reaching it.";
+            dialogueTreeBuilder.AddAnswerToMultipleChoice(initialChoice, 0, dialogueTreeBuilder.CreateNPCStatement(MountSimpleExplanation)).ConnectTo(DialogueTree, new RemoveMoneyAction(100)).ConnectTo(DialogueTree, new GiveItem(4400010)));
+            dialogueTreeBuilder.AddAnswerToMultipleChoice(initialChoice, 1, "Nothing dawg whasup with you", dialogueTreeBuilder.CreateNPCStatement("NOW IM SHOUTING"));
+        }
+    }
+    public class HasCurrency : ConditionTask
+    {
+        public int AmountRequired;
 
-            string MountSimpleExplanation3 = $"Then there are eggs you can find Pearl Bird nests out in the world sometimes these may contain eggs that you are able to raise into mounts sometimes the plumage on the Pearl birds varies!" +
-                $"I hear you can also find eggs for Manticores and Tuanosaurs sometimes from their corpses! I hear even Alphas!";
+        public HasCurrency()
+        {
+        }
 
-            string MountSimpleExplanation4 = $"And there are also disturbing rumours about a <b>Gold Lich</b> experimenting with living pearl bird egg using <b>Living Gold</b>, can you imagine? How does such a creature even exist?" +
-                $"Reminds me of that <b>Mad Pirate Cpt</b> famed for his unusual Pearl Bird companion he had some how transmuted <b>Living Obsidian</b> and a Pearl bird egg to create an incredibly fast mount that did not require feeding but is such an advantage worth the cost?";
+        public HasCurrency(int amountRequired)
+        {
+            AmountRequired = amountRequired;
+        }
 
-            string MountSimpleExplanation5 = $"Anyway .. Here are two skills you can use to Summon and Dismiss your <b>Active</b> mount - you will still have to visit a stable master in order to change it though, we don't charge for this service.";
+        public override bool OnCheck()
+        {
+            Character PlayerTalking = blackboard.GetVariable<Character>("gInstigator").GetValue();
 
-            dialogueTreeBuilder.AddAnswerToMultipleChoice(initialChoice, 0, "Aye, I will take care of them.", dialogueTreeBuilder.CreateNPCStatement("SAY SOMETHING"));
-            dialogueTreeBuilder.AddAnswerToMultipleChoice(initialChoice, 1, "Here's a list of what you have in my stables.", dialogueTreeBuilder.CreateNPCStatement("SAY SOMETHING 2"));
-            dialogueTreeBuilder.AddAnswerToMultipleChoice(initialChoice, 2, MountSimpleExplanation, dialogueTreeBuilder.CreateNPCStatement(MountSimpleExplanation2))
-                .ConnectTo(DialogueTree, dialogueTreeBuilder.CreateNPCStatement(MountSimpleExplanation3))
-                .ConnectTo(DialogueTree, dialogueTreeBuilder.CreateNPCStatement(MountSimpleExplanation4))
-                .ConnectTo(DialogueTree, dialogueTreeBuilder.CreateNPCStatement(MountSimpleExplanation5));
+            if (PlayerTalking && PlayerTalking.Inventory.AvailableMoney >= AmountRequired)
+            {
+                return true;
+            }
 
+            return false;
+        }
+    }
+    public class GiveItem : ActionNode
+    {
+        public int ItemID;
+
+        public GiveItem()
+        {
+
+        }
+
+        public GiveItem(int itemID)
+        {
+            ItemID = itemID;
+        }
+
+        public override Status OnExecute(Component agent, IBlackboard bb)
+        {
+            Character PlayerTalking = bb.GetVariable<Character>("gInstigator").GetValue();
+
+            if (PlayerTalking)
+            {
+                PlayerTalking.Inventory.ReceiveItemReward(ItemID, 1, false);
+            }
+
+            return Status.Success;
         }
     }
 }
