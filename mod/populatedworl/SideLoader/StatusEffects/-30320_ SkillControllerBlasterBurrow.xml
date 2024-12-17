@@ -1,0 +1,146 @@
+<?xml version="1.0"?>
+<SL_StatusEffect xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <TargetStatusIdentifier>AetherbombExplosion</TargetStatusIdentifier>
+  <NewStatusID>-303120</NewStatusID>
+  <StatusIdentifier>SkillControllerBlasterBurrow</StatusIdentifier>
+  <Name>SkillControllerBlasterBurrow</Name>
+  <Description />
+  <Lifespan>2</Lifespan>
+  <RefreshRate>2</RefreshRate>
+  <Purgeable>true</Purgeable>
+  <Priority>2</Priority>
+  <IgnoreBarrier>false</IgnoreBarrier>
+  <BuildupRecoverySpeed>3</BuildupRecoverySpeed>
+  <IgnoreBuildupIfApplied>true</IgnoreBuildupIfApplied>
+  <AmplifiedStatusIdentifier />
+  <RemoveRequiredStatus>false</RemoveRequiredStatus>
+  <NormalizeDamageDisplay>false</NormalizeDamageDisplay>
+  <DisplayedInHUD>false</DisplayedInHUD>
+  <IsHidden>true</IsHidden>
+  <IsMalusEffect>true</IsMalusEffect>
+  <DelayedDestroyTime>4</DelayedDestroyTime>
+  <ActionOnHit>None</ActionOnHit>
+  <FamilyMode>Bind</FamilyMode>
+  <BindFamily>
+    <UID>nm4lgNT0b0KxoiL6hrNQUg</UID>
+    <Name>AetherbombExplosion</Name>
+    <StackBehaviour>IndependantUnique</StackBehaviour>
+    <MaxStackCount>-1</MaxStackCount>
+    <LengthType>Short</LengthType>
+  </BindFamily>
+  <PlayFXOnActivation>true</PlayFXOnActivation>
+  <FXOffset>
+    <x>0</x>
+    <y>0</y>
+    <z>0</z>
+  </FXOffset>
+  <VFXInstantiationType>VFX</VFXInstantiationType>
+  <VFXPrefab>VFXAetherBombExplosion</VFXPrefab>
+  <SpecialSFX>NONE</SpecialSFX>
+  <PlaySpecialFXOnStop>false</PlaySpecialFXOnStop>
+  <EffectBehaviour>Destroy</EffectBehaviour>
+  <Effects>
+    <SL_EffectTransform>
+      <TransformName>Effects</TransformName>
+      <Position xsi:nil="true" />
+      <Rotation xsi:nil="true" />
+      <Scale xsi:nil="true" />
+      <Effects>
+        <SL_Effect xsi:type="SL_ShootBlast">
+          <Delay>0</Delay>
+          <SyncType>Everyone</SyncType>
+          <OverrideCategory>None</OverrideCategory>
+          <CastPosition>Character</CastPosition>
+          <LocalPositionAdd>
+            <x>0</x>
+            <y>1.5</y>
+            <z>0</z>
+          </LocalPositionAdd>
+          <NoAim>false</NoAim>
+          <TargetType>Any</TargetType>
+          <TransformName>ShooterTransform</TransformName>
+          <BaseBlast>AncientDwellerSong</BaseBlast>
+          <Radius>5</Radius>
+          <RefreshTime>0.1</RefreshTime>
+          <BlastLifespan>0.1</BlastLifespan>
+          <InstantiatedAmount>1</InstantiatedAmount>
+          <Interruptible>false</Interruptible>
+          <MaxHitTargetCount>-1</MaxHitTargetCount>
+          <AffectHitTargetCenter>false</AffectHitTargetCenter>
+          <HitOnShoot>true</HitOnShoot>
+          <IgnoreShooter>true</IgnoreShooter>
+          <IgnoreStop>true</IgnoreStop>
+          <NoTargetForwardMultiplier>5</NoTargetForwardMultiplier>
+          <ParentToShootTransform>false</ParentToShootTransform>
+          <UseTargetCharacterPositionType>false</UseTargetCharacterPositionType>
+          <ImpactSoundMaterial>NONE</ImpactSoundMaterial>
+          <DontPlayHitSound>true</DontPlayHitSound>
+          <FXIsWorld>false</FXIsWorld>
+          <PlaySounOnRefresh>false</PlaySounOnRefresh>
+          <DelayFirstShoot>-1</DelayFirstShoot>
+          <PlayFXOnRefresh>false</PlayFXOnRefresh>
+          <EffectBehaviour>Destroy</EffectBehaviour>
+          <BlastEffects>
+            <SL_EffectTransform>
+              <TransformName>Effects</TransformName>
+              <Position xsi:nil="true" />
+              <Rotation xsi:nil="true" />
+              <Scale xsi:nil="true" />
+              <Effects>
+                <SL_Effect xsi:type="SL_AddStatusEffect">
+                  <Delay>0</Delay>
+                  <SyncType>Everyone</SyncType>
+                  <OverrideCategory>None</OverrideCategory>
+                  <StatusEffect>NPCDodge</StatusEffect>
+                  <ChanceToContract>30</ChanceToContract>
+                  <AffectController>true</AffectController>
+                  <AdditionalLevel>0</AdditionalLevel>
+                  <NoDealer>false</NoDealer>
+                </SL_Effect>
+              </Effects>
+            </SL_EffectTransform>
+            <SL_EffectTransform>
+              <TransformName>EffectsAttack</TransformName>
+              <Position xsi:nil="true" />
+              <Rotation xsi:nil="true" />
+              <Scale xsi:nil="true" />
+              <Effects>
+                <SL_Effect xsi:type="SL_AddStatusEffect">
+                  <Delay>0</Delay>
+                  <SyncType>Everyone</SyncType>
+                  <OverrideCategory>None</OverrideCategory>
+                  <StatusEffect>NPCWeapon2</StatusEffect>
+                  <ChanceToContract>30</ChanceToContract>
+                  <AffectController>true</AffectController>
+                  <AdditionalLevel>0</AdditionalLevel>
+                  <NoDealer>false</NoDealer>
+                </SL_Effect>
+              </Effects>
+              <EffectConditions>
+                <SL_EffectCondition xsi:type="SL_HasStatusEffectEffectCondition">
+                  <Invert>true</Invert>
+                  <DiseaseAge>0</DiseaseAge>
+                  <CheckOwner>true</CheckOwner>
+                  <StatusSelectorType>StatusSpecific</StatusSelectorType>
+                  <SelectorValue>ForceBubble</SelectorValue>
+                </SL_EffectCondition>
+              </EffectConditions>
+            </SL_EffectTransform>
+          </BlastEffects>
+        </SL_Effect>
+        <SL_Effect xsi:type="SL_AddStatusEffect">
+          <Delay>0.1</Delay>
+          <SyncType>Everyone</SyncType>
+          <OverrideCategory>None</OverrideCategory>
+          <StatusEffect>SkillControllerBlasterBurrow</StatusEffect>
+          <ChanceToContract>100</ChanceToContract>
+          <AffectController>false</AffectController>
+          <AdditionalLevel>0</AdditionalLevel>
+          <NoDealer>false</NoDealer>
+        </SL_Effect>
+      </Effects>
+      <EffectConditions />
+      <ChildEffects />
+    </SL_EffectTransform>
+  </Effects>
+</SL_StatusEffect>

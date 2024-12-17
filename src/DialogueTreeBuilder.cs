@@ -22,6 +22,8 @@ namespace PopulatedWorld
             // Add our root statement
             StatementNodeExt InitialStatementNode = CreateNPCStatement(InitialStatement);
             TargetDialogueTree.primeNode = InitialStatementNode;
+
+            AddNode(InitialStatementNode);
             return InitialStatementNode;
         }
 

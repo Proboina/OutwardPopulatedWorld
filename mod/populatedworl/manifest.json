@@ -1,0 +1,10 @@
+{
+    "name": "Populated_World",
+    "version_number": "0.1.2",
+    "website_url": "",
+"description": "Description",
+    "dependencies": [
+		"sinai-dev-SideLoader-3.8.3",
+        "BepInEx-BepInExPack_Outward-5.4.19"
+    ]
+}

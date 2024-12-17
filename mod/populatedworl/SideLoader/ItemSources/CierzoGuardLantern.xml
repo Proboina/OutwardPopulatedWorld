@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<SL_ItemSpawn xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <IdentifierName>Proboina.CierzoGuardLantern</IdentifierName>
+  <ItemID>5100010</ItemID>
+  <Quantity>1</Quantity>
+  <SceneToSpawnIn>ChersoneseNewTerrain</SceneToSpawnIn>
+  <SpawnPosition>
+    <x>137.2952</x>
+    <y>34</y>
+    <z>1465.812</z>
+  </SpawnPosition>
+  <SpawnRotation>
+    <x>0</x>
+    <y>0</y>
+    <z>0</z>
+  </SpawnRotation>
+  <ForceNonPickable>true</ForceNonPickable>
+  <TryLightFueledContainer>true</TryLightFueledContainer>
+</SL_ItemSpawn>
