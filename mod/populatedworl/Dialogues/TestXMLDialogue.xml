@@ -1,32 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 <DialogueDefinition xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <CharacterUID>Proboina.Test</CharacterUID>
-    <InitialStatement>Hello this is the first thing I say.</InitialStatement>
+    <InitialStatement>Welcome to my trading post, traveler. How may I assist you today?</InitialStatement>
     <Nodes>
         <Node xsi:type="MultiChoiceNode">
             <Choices>
                 <Choice>
-                    <Text>I want some bandages</Text>
-                    <Condition xsi:type="CurrencyCondition">
-                        <Amount>100</Amount>
-                    </Condition>
+                    <Text>I need medical supplies</Text>
+                    <NextNode xsi:type="MultiChoiceNode">
+                        <Choices>
+                            <Choice>
+                                <Text>I'll take the premium healing kit</Text>
+                                <Condition xsi:type="CurrencyCondition">
+                                    <Amount>500</Amount>
+                                </Condition>
+                                <NextNode xsi:type="XMLStatementNode">
+                                    <Text>Excellent choice. This premium healing kit contains our finest bandages and healing potions.</Text>
+                                    <NextNode xsi:type="RemoveMoneyActionNode">
+                                        <Amount>500</Amount>
+                                        <NextNode xsi:type="GiveItemActionNode">
+                                            <ItemID>4400050</ItemID>
+                                            <NextNode xsi:type="XMLStatementNode">
+                                                <Text>Here's your premium healing kit. Use it wisely!</Text>
+                                            </NextNode>
+                                        </NextNode>
+                                    </NextNode>
+                                </NextNode>
+                            </Choice>
+                            <Choice>
+                                <Text>Just basic bandages, please</Text>
+                                <Condition xsi:type="CurrencyCondition">
+                                    <Amount>100</Amount>
+                                </Condition>
+                                <NextNode xsi:type="XMLStatementNode">
+                                    <Text>Basic bandages are always useful to have on hand.</Text>
+                                    <NextNode xsi:type="RemoveMoneyActionNode">
+                                        <Amount>100</Amount>
+                                        <NextNode xsi:type="GiveItemActionNode">
+                                            <ItemID>4400010</ItemID>
+                                            <NextNode xsi:type="XMLStatementNode">
+                                                <Text>Here are your bandages. Stay safe out there!</Text>
+                                            </NextNode>
+                                        </NextNode>
+                                    </NextNode>
+                                </NextNode>
+                            </Choice>
+                            <Choice>
+                                <Text>Never mind, too expensive</Text>
+                                <NextNode xsi:type="XMLStatementNode">
+                                    <Text>I understand. Perhaps come back when you have more silver.</Text>
+                                </NextNode>
+                            </Choice>
+                        </Choices>
+                    </NextNode>
+                </Choice>
+                <Choice>
+                    <Text>Tell me about your trading post</Text>
                     <NextNode xsi:type="XMLStatementNode">
-                        <Text>I will give you 10 bandages for 100 silver</Text>
-                        <NextNode xsi:type="RemoveMoneyActionNode">
-                            <Amount>100</Amount>
-                            <NextNode xsi:type="GiveItemActionNode">
-                                <ItemID>4400010</ItemID>
-                            </NextNode>
+                        <Text>We've been serving adventurers like yourself for over 20 years.</Text>
+                        <NextNode xsi:type="MultiChoiceNode">
+                            <Choices>
+                                <Choice>
+                                    <Text>That's impressive!</Text>
+                                    <NextNode xsi:type="XMLStatementNode">
+                                        <Text>Thank you! We take pride in our service.</Text>
+                                    </NextNode>
+                                </Choice>
+                                <Choice>
+                                    <Text>What's your best-selling item?</Text>
+                                    <NextNode xsi:type="XMLStatementNode">
+                                        <Text>Our premium healing kits are quite popular among experienced adventurers.</Text>
+                                    </NextNode>
+                                </Choice>
+                            </Choices>
                         </NextNode>
                     </NextNode>
                 </Choice>
                 <Choice>
-                    <Text>Whats up dog</Text>
+                    <Text>Goodbye</Text>
                     <NextNode xsi:type="XMLStatementNode">
-                        <Text>Nothing dawg</Text>
-                        <NextNode xsi:type="XMLStatementNode">
-                            <Text>NOW IM SHOUTING</Text>
-                        </NextNode>
+                        <Text>Safe travels! Return whenever you need supplies.</Text>
                     </NextNode>
                 </Choice>
             </Choices>

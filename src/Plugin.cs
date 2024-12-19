@@ -8,6 +8,7 @@ using SideLoader;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
+using static MapMagic.ObjectPool;
 
 namespace PopulatedWorld
 {
@@ -17,36 +18,57 @@ namespace PopulatedWorld
         public const string GUID = "prob.populatedworld";
         public const string NAME = "Populated World";
         public const string VERSION = "1.0.0";
+        public string SLPack = "Populated World";
         internal static ManualLogSource Log;
 
         public static DialogueManager DialogueManager { get; private set; }
+        public static DialogueEffectContainer DialogueEffectContainer { get; private set; }
 
+        public static Item Skill { get; set; }
+
+        public static Plugin Instance { get; private set; }
 
         internal void Awake()
         {
+            Instance = this;
             Log = this.Logger;
             Log.LogMessage($"Hello world from {NAME} {VERSION}!");
 
             DialogueManager = new DialogueManager(Paths.PluginPath);
-
+            DialogueEffectContainer = this.gameObject.AddComponent<DialogueEffectContainer>();
             SL.OnPacksLoaded += SL_OnPacksLoaded;
 
 
             new Harmony(GUID).PatchAll();
         }
 
-        public string SLPack = "Populated World";
-        //    static string testCharacterUID = "Proboina.Test";
+
+        public void GenerateDialogueSkillSynchroniser()
+        {
+            if (Skill == null)
+            {
+                Skill = ItemManager.Instance.GenerateItemNetwork(4100170);
+
+                Debug.Log($"Skill generated ? {Skill}");
+
+                if (Skill)
+                {
+                    DontDestroyOnLoad(Skill.gameObject);
+                }
+
+            }
+        }
+
+
         private void SL_OnPacksLoaded()
         {
-            var pack = SL.GetSLPack(SLPack);
 
-            if (pack != null)
+            foreach (var item in CustomCharacters.Templates)
             {
-                SL_Character character = pack.CharacterTemplates["Proboina.Test"];
-
-                character.OnSpawn += Character_OnSpawn;
+                item.Value.OnSpawn += Character_OnSpawn;
             }
+
+            GenerateDialogueSkillSynchroniser();
         }
 
         private string TrainerPrefabPath = "editor/templates/TrainerTemplate";
@@ -54,8 +76,6 @@ namespace PopulatedWorld
         private void Character_OnSpawn(Character character, string _arg2)
         {
             Log.LogMessage(character);
-
-
 
             GameObject trainerPrefab = Instantiate(Resources.Load<GameObject>(TrainerPrefabPath));
             trainerPrefab.transform.SetParent(character.transform, false);
@@ -80,39 +100,6 @@ namespace PopulatedWorld
             DialogueTreeBuilder dialogueTreeBuilder = new DialogueTreeBuilder(DialogueTree);
 
             DialogueManager.BuildDialogueForCharacter(character.UID, DialogueTree, dialogueTreeBuilder);
-
-
-            foreach (var item in DialogueTree._nodes)
-            {
-                Debug.Log(item);
-            }
-
-            //StatementNodeExt InitialStatement = dialogueTreeBuilder.SetInitialStatement("Hello this is the first thing I say.");
-
-
-
-            ////yes I copy and pasted, if you're going to set up many like this I will copy over the proper structure you can use lol.
-
-            //MultipleChoiceNodeExt initialChoice = dialogueTreeBuilder.AddMultipleChoiceNode(new string[]
-            //{
-            //    "I have some bandages",
-            //    "Whats up dog",
-            //}, 
-            //new ConditionTask[]
-            //    {
-            //        new HasCurrency()
-            //        {
-            //            AmountRequired = 100
-            //        },
-            //        null
-            //});
-
-            //InitialStatement.ConnectTo(DialogueTree, initialChoice);
-
-            //string MountSimpleExplanation = $"I will give you 10 bandages for 100 silver";
-
-            //dialogueTreeBuilder.AddAnswerToMultipleChoice(initialChoice, 0, dialogueTreeBuilder.CreateNPCStatement(MountSimpleExplanation)).ConnectTo(DialogueTree, new RemoveMoneyAction(100)).ConnectTo(DialogueTree, new GiveItem(4400010));
-            //dialogueTreeBuilder.AddAnswerToMultipleChoice(initialChoice, 1, "Nothing dawg whasup with you", dialogueTreeBuilder.CreateNPCStatement("NOW IM SHOUTING"));
         }
     }
 }

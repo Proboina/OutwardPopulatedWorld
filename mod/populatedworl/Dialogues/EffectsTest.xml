@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DialogueDefinition xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <CharacterUID>Proboina.Test2</CharacterUID>
+    <InitialStatement>Hello there.</InitialStatement>
+    <Nodes>
+        <Node xsi:type="MultiChoiceNode">
+            <Choices>
+                <Choice>
+                    <Text>Cast a spell on me</Text>
+                    <NextNode xsi:type="XMLStatementNode">
+                        <Text>Here comes the magic!</Text>
+                        <NextNode xsi:type="DialogEffectNode">
+                            <targetInstigator>true</targetInstigator>
+                            <editBehaviour>Destroy</editBehaviour>
+                            <effectTransforms>
+                              <SL_EffectTransform>
+                                <TransformName>Effects</TransformName>
+                                <Position xsi:nil="true" />
+                                <Rotation xsi:nil="true" />
+                                <Scale xsi:nil="true" />
+                                <Effects>
+                                    <SL_Effect xsi:type="SL_PunctualDamage">
+                                      <Delay>0</Delay>
+                                      <SyncType>Everyone</SyncType>
+                                      <OverrideCategory>None</OverrideCategory>
+                                      <Damage>
+                                        <SL_Damage>
+                                          <Damage>10</Damage>
+                                          <Type>Physical</Type>
+                                        </SL_Damage>
+                                      </Damage>
+                                      <Damages_AI>
+                                        <SL_Damage>
+                                          <Damage>10</Damage>
+                                          <Type>Physical</Type>
+                                        </SL_Damage>
+                                      </Damages_AI>
+                                      <Knockback>65</Knockback>
+                                      <HitInventory>true</HitInventory>
+                                      <IgnoreHalfResistances>false</IgnoreHalfResistances>
+                                    </SL_Effect>
+                                </Effects>
+                                <EffectConditions />
+                                <ChildEffects />
+                              </SL_EffectTransform>
+                            </effectTransforms>
+                            <NextNode xsi:type="XMLStatementNode">
+                                <Text>The spell is complete.</Text>
+                            </NextNode>
+                        </NextNode>
+                    </NextNode>
+                </Choice>
+                <Choice>
+                    <Text>Goodbye</Text>
+                    <NextNode xsi:type="XMLStatementNode">
+                        <Text>Farewell!</Text>
+                    </NextNode>
+                </Choice>
+            </Choices>
+        </Node>
+    </Nodes>
+</DialogueDefinition>

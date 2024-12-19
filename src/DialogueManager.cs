@@ -1,4 +1,5 @@
 ﻿using NodeCanvas.DialogueTrees;
+using SideLoader;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -62,18 +63,26 @@ namespace PopulatedWorld
 
         private T DeserializeFromXML<T>(string path)
         {
-            Debug.Log($"Starting deserialization of {path}");
             var assembly = Assembly.GetExecutingAssembly();
-            var allTypes = assembly.GetTypes()
+            var sideLoaderAssembly = typeof(SL_Effect).Assembly;
+
+            var dialogueTypes = assembly.GetTypes()
                 .Where(t => !t.IsAbstract && (
                     typeof(DialogueNodeBase).IsAssignableFrom(t) ||
                     typeof(XMLActionNode).IsAssignableFrom(t) ||
                     typeof(ConditionBase).IsAssignableFrom(t) ||
                     typeof(Choice).IsAssignableFrom(t)));
 
+            var effectTypes = sideLoaderAssembly.GetTypes()
+                .Where(t => !t.IsAbstract && (
+                    typeof(SL_Effect).IsAssignableFrom(t) ||
+                    typeof(SL_EffectTransform).IsAssignableFrom(t)));
+
+            var allTypes = dialogueTypes.Concat(effectTypes).ToArray();
+
             Debug.Log($"Found types: {string.Join(", ", allTypes.Select(t => t.Name))}");
 
-            var serializer = new XmlSerializer(typeof(T), allTypes.ToArray());
+            var serializer = new XmlSerializer(typeof(T), allTypes);
             using (StreamReader reader = new StreamReader(path))
             {
                 try
