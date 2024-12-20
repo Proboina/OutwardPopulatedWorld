@@ -1,4 +1,5 @@
 ﻿using NodeCanvas.Framework;
+using System;
 
 namespace PopulatedWorld
 {
@@ -27,6 +28,18 @@ namespace PopulatedWorld
             }
 
             return false;
+        }
+    }
+
+    [Serializable]
+    public class HasItemCondition : ConditionBase
+    {
+        public int ItemID;
+        public int Amount;
+
+        public override ConditionTask CreateCondition()
+        {
+            return new HasItem() { ItemID = ItemID, Amount = Amount };
         }
     }
 }

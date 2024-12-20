@@ -1,4 +1,5 @@
 ﻿using NodeCanvas.Framework;
+using System;
 
 namespace PopulatedWorld
 {
@@ -25,6 +26,17 @@ namespace PopulatedWorld
             }
 
             return false;
+        }
+    }
+
+    [Serializable]
+    public class CurrencyCondition : ConditionBase
+    {
+        public int Amount;
+
+        public override ConditionTask CreateCondition()
+        {
+            return new HasCurrency() { AmountRequired = Amount };
         }
     }
 }

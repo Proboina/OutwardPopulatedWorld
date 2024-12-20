@@ -111,6 +111,11 @@ namespace PopulatedWorld
             return null;
         }
 
+        public bool HasDialogueForCharacer(string characterUID)
+        {
+            return DialogueData.ContainsKey(characterUID);
+        }
+
         public void BuildDialogueForCharacter(string characterUID, DialogueTree tree, DialogueTreeBuilder builder)
         {
             var dialogue = GetDialogueForCharacter(characterUID);

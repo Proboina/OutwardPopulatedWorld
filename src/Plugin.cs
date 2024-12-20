@@ -5,6 +5,7 @@ using HarmonyLib;
 using NodeCanvas.DialogueTrees;
 using NodeCanvas.Framework;
 using SideLoader;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -19,6 +20,7 @@ namespace PopulatedWorld
         public const string NAME = "Populated World";
         public const string VERSION = "1.0.0";
         public string SLPack = "Populated World";
+        private string TrainerPrefabPath = "editor/templates/TrainerTemplate";
         internal static ManualLogSource Log;
 
         public static DialogueManager DialogueManager { get; private set; }
@@ -62,44 +64,55 @@ namespace PopulatedWorld
 
         private void SL_OnPacksLoaded()
         {
-
             foreach (var item in CustomCharacters.Templates)
             {
-                item.Value.OnSpawn += Character_OnSpawn;
+                if (DialogueManager.HasDialogueForCharacer(item.Key))
+                {
+                    item.Value.OnSpawn += Character_OnSpawn;
+
+                }          
             }
 
             GenerateDialogueSkillSynchroniser();
         }
 
-        private string TrainerPrefabPath = "editor/templates/TrainerTemplate";
+
 
         private void Character_OnSpawn(Character character, string _arg2)
         {
-            Log.LogMessage(character);
+            try
+            {
+                Trainer existingTrainerComp = character.GetComponentInChildren<Trainer>();
 
-            GameObject trainerPrefab = Instantiate(Resources.Load<GameObject>(TrainerPrefabPath));
-            trainerPrefab.transform.SetParent(character.transform, false);
-            Log.LogMessage(trainerPrefab);
+                if (existingTrainerComp == null)
+                {
+                    GameObject trainerPrefab = Instantiate(Resources.Load<GameObject>(TrainerPrefabPath));
+                    trainerPrefab.transform.SetParent(character.transform, false);
+                    trainerPrefab.transform.position = character.transform.position;
+                }
 
+                DialogueTreeController graphController = character.gameObject.GetComponentInChildren<DialogueTreeController>();
+                Graph graph = graphController.graph;
 
-            DialogueTreeController graphController = character.gameObject.GetComponentInChildren<DialogueTreeController>();
-            Graph graph = graphController.graph;
-            trainerPrefab.transform.position = character.transform.position;
-            DialogueTree DialogueTree = (DialogueTree)graph;
-
-
-            DialogueActor ourActor = character.GetComponentInChildren<DialogueActor>();
-            ourActor.SetName(character.Name);
-
-
+                DialogueTree DialogueTree = (DialogueTree)graph;
 
 
-            List<DialogueTree.ActorParameter> actors = (graph as DialogueTree).actorParameters;
-            actors[0].actor = ourActor;
-            actors[0].name = ourActor.name;
-            DialogueTreeBuilder dialogueTreeBuilder = new DialogueTreeBuilder(DialogueTree);
+                DialogueActor ourActor = character.GetComponentInChildren<DialogueActor>();
+                ourActor.SetName(character.Name);
 
-            DialogueManager.BuildDialogueForCharacter(character.UID, DialogueTree, dialogueTreeBuilder);
+                List<DialogueTree.ActorParameter> actors = (graph as DialogueTree).actorParameters;
+                actors[0].actor = ourActor;
+                actors[0].name = ourActor.name;
+                DialogueTreeBuilder dialogueTreeBuilder = new DialogueTreeBuilder(DialogueTree);
+
+                DialogueManager.BuildDialogueForCharacter(character.UID, DialogueTree, dialogueTreeBuilder);
+            }
+            catch (Exception  e)
+            {
+                Debug.LogError($"On Character Spawn Exception \r\n {e}");
+            }
+
+
         }
     }
 }

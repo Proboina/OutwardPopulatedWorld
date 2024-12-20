@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<SL_CharacterTrainer xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <SaveType>Scene</SaveType>
+  <UID>Proboina.CohhCarnage</UID>
+  <Name>Cohh</Name>
+  <DestroyOnDeath>false</DestroyOnDeath>
+  <StartingPose>NONE</StartingPose>
+  <Scale>
+    <x>1</x>
+    <y>1</y>
+    <z>1</z>
+  </Scale>
+  <StartSheathed>true</StartSheathed>
+  <SceneToSpawn>ChersoneseNewTerrain</SceneToSpawn>
+  <SpawnPosition>
+    <x>320.5198</x> 
+    <y>27.73972</y>
+    <z>1497.238</z>
+  </SpawnPosition>
+  <SpawnRotation>
+    <x>0</x>
+    <y>35.39886</y>
+    <z>0</z>
+  </SpawnRotation>
+  <Faction>NONE</Faction>
+  <Weapon_ID>2100020</Weapon_ID>
+  <Shield_ID xsi:nil="true" />
+  <Helmet_ID>3100001</Helmet_ID>
+  <Chest_ID>3100000</Chest_ID>
+  <Boots_ID>3100002</Boots_ID>
+  <Backpack_ID xsi:nil="true" />
+  <LootableOnDeath>false</LootableOnDeath>
+  <DropPouchContents>false</DropPouchContents>
+  <DropWeapons>false</DropWeapons>
+  <Health>100</Health>
+  <HealthRegen>0</HealthRegen>
+  <ImpactResist>0</ImpactResist>
+  <Protection>0</Protection>
+  <Barrier>0</Barrier>
+  <Damage_Resists>
+    <float>0</float>
+    <float>0</float>
+    <float>0</float>
+    <float>0</float>
+    <float>0</float>
+    <float>0</float>
+  </Damage_Resists>
+  <Damage_Bonus>
+    <float>0</float>
+    <float>0</float>
+    <float>0</float>
+    <float>0</float>
+    <float>0</float>
+    <float>0</float>
+  </Damage_Bonus>
+  <Status_Immunity />
+  <AutoTeleportWhenFar>false</AutoTeleportWhenFar>
+  <AutoTeleportDistanceThreshold>25</AutoTeleportDistanceThreshold>
+  <InitialDialogue> Those bandits from Montcalm constantly send troops our way, be careful and try to stick with my guys - I can't guarantee your safety past the gates ahead. Not to mention, the carnage... attracts not just hyenas.
+ Just recently they've sent a raid and took one of my men to feed thier "protectors", damn it. I wish he wouldn't suffer, but I'm afraid ghosts savor their food for as long as possible...</InitialDialogue>
+</SL_CharacterTrainer>
